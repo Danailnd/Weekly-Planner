@@ -16,7 +16,6 @@ export default async (req, res) => {
       },
       { upsert: true }
     );
-    // const { name, ingredient, cookingTime } = req.body;
 
     res.json(workplace);
   } catch (e) {
