@@ -48,7 +48,7 @@ export const getServerSideProps = withIronSessionSsr(async function ({
     const user = req.session.user;
     const client = await clientPromise;
 
-    const db = client.db("ObrazowDom");
+    const db = client.db("WeeklyPlanner");
 
     let fromDB = null;
     if (user) {

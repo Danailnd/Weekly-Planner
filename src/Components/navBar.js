@@ -66,10 +66,13 @@ export default function NavigationBar() {
           </div>
         </Popover>
         <Button href="/">Home</Button>
-        <Button href="/calendar">Calendar</Button>
 
         {user?.isLoggedIn ? (
-          <Button onClick={signOut}>Sign Out</Button>
+          <>
+            <Button href="/calendar">Calendar</Button>
+
+            <Button onClick={signOut}>Sign Out</Button>
+          </>
         ) : (
           <>
             <Button href="/register">Register</Button>

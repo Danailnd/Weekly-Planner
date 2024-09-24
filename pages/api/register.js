@@ -6,7 +6,7 @@ const saltRounds = 10;
 export default async (req, res) => {
   try {
     const client = await clientPromise;
-    const db = client.db("ObrazowDom");
+    const db = client.db("WeeklyPlanner");
 
     const { email, username, password, familyAccount } = req.body;
 
