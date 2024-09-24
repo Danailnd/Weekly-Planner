@@ -16,7 +16,6 @@ export default async (req, res) => {
       email: email,
       username: username,
       password: hashedPwd,
-      familyAccount: familyAccount,
     });
 
     res.json(user);

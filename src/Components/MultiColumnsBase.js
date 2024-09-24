@@ -2,54 +2,32 @@ import React, { useState, useEffect, useRef } from "react";
 import { DragDropContext } from "react-beautiful-dnd";
 import Column from "./Column";
 import Grid from "@mui/material/Grid";
+import Button from "@mui/material/Button";
 import uuid from "react-uuid";
 
 const getContainerStyle = () => ({
   display: "grid",
-  gridTemplateColumns: "1fr 1fr 1fr",
-  margin: "10vh auto",
-  width: "80%",
-  height: "80vh",
-  gap: "8px",
+  gridTemplateColumns: "repeat(7, 1fr)",
+  margin: "5vh auto",
+  width: "90%",
+  height: "auto",
+  gap: "16px",
+  paddingLeft: "10px",
 });
+
 export default function MultiColumnsBase({ userId, columnsFromDB }) {
   const initialColumns = {
-    Monday: {
-      id: "Monday",
-      list: [
-        // { content: "item 1", itemId: "1" },
-        // { content: "item 1", itemId: "2" },
-        // { content: "item 1", itemId: "3" },
-      ],
-    },
+    Monday: { id: "Monday", list: [] },
     Tuesday: {
       id: "Tuesday",
-      list: [
-        { content: "item 1", itemId: "3", color: "pink", disabled: false },
-      ],
-    },
-    Wednesday: {
-      id: "Wednesday",
       list: [],
     },
-    Thursday: {
-      id: "Thursday",
-      list: [],
-    },
-    Friday: {
-      id: "Friday",
-      list: [],
-    },
-    Saturday: {
-      id: "Saturday",
-      list: [],
-    },
-    Sunday: {
-      id: "Sunday",
-      list: [],
-    },
+    Wednesday: { id: "Wednesday", list: [] },
+    Thursday: { id: "Thursday", list: [] },
+    Friday: { id: "Friday", list: [] },
+    Saturday: { id: "Saturday", list: [] },
+    Sunday: { id: "Sunday", list: [] },
   };
-
   const [columns, setColumns] = useState(
     columnsFromDB ? columnsFromDB : initialColumns
   );
@@ -61,7 +39,6 @@ export default function MultiColumnsBase({ userId, columnsFromDB }) {
 
   async function save() {
     const requestBody = { columns: columns, userId: userId };
-    console.log(requestBody);
     await fetch("/api/workplace/save", {
       method: "POST",
       body: JSON.stringify(requestBody),
@@ -74,8 +51,8 @@ export default function MultiColumnsBase({ userId, columnsFromDB }) {
 
   const handleSaveKeyPress = (event) => {
     if (event.ctrlKey && event.key === "s") {
-      event.preventDefault(); // Prevent the browser's default save action
-      save(); // Call the save function
+      event.preventDefault();
+      save();
     }
   };
 
@@ -110,25 +87,16 @@ export default function MultiColumnsBase({ userId, columnsFromDB }) {
 
       newList.splice(destination.index, 0, start.list[source.index]);
 
-      const newCol = {
-        id: start.id,
-        list: newList,
-      };
+      const newCol = { id: start.id, list: newList };
       setColumns((state) => ({ ...state, [newCol.id]: newCol }));
       temporaryColumn.current = columns;
       return null;
     } else {
       const newStartList = start.list.filter((_, idx) => idx !== source.index);
-      const newStartCol = {
-        id: start.id,
-        list: newStartList,
-      };
+      const newStartCol = { id: start.id, list: newStartList };
       const newEndList = end.list;
       newEndList.splice(destination.index, 0, start.list[source.index]);
-      const newEndCol = {
-        id: end.id,
-        list: newEndList,
-      };
+      const newEndCol = { id: end.id, list: newEndList };
       setColumns((state) => ({
         ...state,
         [newStartCol.id]: newStartCol,
@@ -140,27 +108,24 @@ export default function MultiColumnsBase({ userId, columnsFromDB }) {
   };
 
   function createTask(columnId) {
-    console.log(columnId);
     const result = columns;
     result[columnId]?.list.push({
       content: count.current.toString(),
       itemId: uuid(),
     });
-    count.current = count.current + 1;
+    count.current += 1;
     temporaryColumn.current = result;
     setForceRerender(!forceRerender);
   }
+
   function deleteTask(id, parentColumn) {
     const start = columns[parentColumn];
     const newList = start.list.filter((_, idx) => idx !== id);
 
-    const newCol = {
-      id: start.id,
-      list: newList,
-    };
-
+    const newCol = { id: start.id, list: newList };
     setColumns((state) => ({ ...state, [newCol.id]: newCol }));
   }
+
   function editTaskContent(column, id, text) {
     const result = columns;
     result[column].list[id].content = text;
@@ -183,50 +148,57 @@ export default function MultiColumnsBase({ userId, columnsFromDB }) {
 
   return (
     <>
+      <Grid
+        container
+        justifyContent="flex-start"
+        spacing={2}
+        sx={{
+          marginBottom: 2,
+          marginTop: 4,
+          paddingLeft: "20px",
+          marginLeft: "40px",
+        }}
+      >
+        <Grid item>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => createTask("Monday")}
+            sx={{ backgroundColor: "#FFB0E5", color: "#000", marginRight: 2 }}
+          >
+            Create Sample
+          </Button>
+        </Grid>
+        <Grid item>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={save}
+            sx={{ backgroundColor: "#FFB0E5", color: "#000" }}
+          >
+            Save
+          </Button>
+        </Grid>
+      </Grid>
+
       <DragDropContext onDragEnd={onDragEnd}>
-        <div styles={getContainerStyle}>
-          <Grid container spacing={2} className="gridCal">
-            {Object.values(columns).map((col) => (
-              <Grid item className="upperLetter">
+        <div style={getContainerStyle()}>
+          {Object.values(columns).map((col) => {
+            return (
+              <div key={col.id} style={{ textAlign: "center" }}>
                 <Column
                   col={col}
-                  key={col.id}
                   deleteTask={deleteTask}
                   editTaskContent={editTaskContent}
                   createTask={createTask}
                   editTaskColor={editTaskColor}
                   changeTaskStatus={changeTaskStatus}
                 />
-              </Grid>
-            ))}
-          </Grid>
+              </div>
+            );
+          })}
         </div>
       </DragDropContext>
-      <div>
-        <button
-          variant="outlined"
-          onClick={() => console.log(columns)}
-          sx={{ margin: 2, backgroundColor: "#FFB0E5" }}
-        >
-          Console log Result
-        </button>
-      </div>
-      <button
-        variant="outlined"
-        onClick={() => {
-          createTask("Monday");
-        }}
-        sx={{ margin: 2, backgroundColor: "#FFB0E5" }}
-      >
-        Create Sample
-      </button>
-      <button
-        variant="outlined"
-        onClick={save}
-        sx={{ margin: 2, backgroundColor: "#FFB0E5" }}
-      >
-        Save
-      </button>
     </>
   );
 }

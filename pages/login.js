@@ -2,7 +2,6 @@ import * as React from "react";
 import { useState } from "react";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
-import Checkbox from "@mui/material/Checkbox";
 import Button from "@mui/material/Button";
 import useUser from "../lib/useUser";
 import fetchJson, { FetchError } from "../lib/fetchJson";

@@ -8,18 +8,21 @@ import { sessionOptions } from "../lib/session";
 const MultiColumnsBase = dynamic(import("../src/Components/MultiColumnsBase"));
 
 export default function Calendar({ fromDB }) {
-  const { user, mutateUser } = useUser({
+  const { user } = useUser({
     redirectTo: "/login",
+    redirectIfFound: false,
   });
 
-  let userId = user?._id;
-  let columnsFromDB = fromDB?.workplace?.columns;
+  const userId = user?._id;
+  const columnsFromDB = fromDB?.workplace?.columns;
 
-  const [winReady, setwinReady] = useState(false);
+  // Use winReady state to determine if the window is ready
+  const [winReady, setWinReady] = useState(false);
 
+  // Use effect to set winReady to true after component mounts
   useEffect(() => {
-    setwinReady(true);
-  }, []);
+    setWinReady(true);
+  }, []); // Empty dependency array means this effect runs only once
 
   return (
     <div
@@ -31,13 +34,12 @@ export default function Calendar({ fromDB }) {
       }}
     >
       {winReady ? (
-        <>
-          <MultiColumnsBase userId={userId} columnsFromDB={columnsFromDB} />
-        </>
+        <MultiColumnsBase userId={userId} columnsFromDB={columnsFromDB} />
       ) : null}
     </div>
   );
 }
+
 export const getServerSideProps = withIronSessionSsr(async function ({
   req,
   res,
@@ -57,6 +59,9 @@ export const getServerSideProps = withIronSessionSsr(async function ({
     };
   } catch (e) {
     console.error(e);
+    return {
+      props: { fromDB: null }, // Return null or handle the error appropriately
+    };
   }
 },
 sessionOptions);

@@ -13,7 +13,7 @@ export default () => {
   const [checked, setChecked] = useState(false);
 
   const { mutateUser } = useUser({
-    redirectTo: "calendar",
+    redirectTo: "/calendar",
     redirectIfFound: true,
   });
 
@@ -22,16 +22,47 @@ export default () => {
       email: email,
       username: username,
       password: password,
-      familyAccount: checked,
     };
-    await fetch("http://localhost:3000/api/register", {
-      method: "POST",
-      body: JSON.stringify(result),
-      headers: {
-        Accept: "application/json, text/plain, */*",
-        "Content-Type": "application/json",
-      },
-    });
+    try {
+      const registerResponse = await fetch(
+        "http://localhost:3000/api/register",
+        {
+          method: "POST",
+          body: JSON.stringify(result),
+          headers: {
+            Accept: "application/json, text/plain, */*",
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      // Check if the registration was successful
+      if (!registerResponse.ok) {
+        const errorMessage = await registerResponse.json();
+        console.error("Registration failed:", errorMessage);
+        return; // Exit the function if registration fails
+      }
+
+      // If registration is successful, log in the user
+      const loginResponse = await fetch("http://localhost:3000/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }), // Use correct body structure for login
+      });
+
+      // Check if the login was successful
+      if (!loginResponse.ok) {
+        const errorMessage = await loginResponse.json();
+        console.error("Login failed:", errorMessage);
+        return; // Exit the function if login fails
+      }
+
+      // Use mutateUser to update the user state
+      const userData = await loginResponse.json();
+      mutateUser(userData, true); // Redirect if found
+    } catch (error) {
+      console.error("An unexpected error happened:", error);
+    }
   };
 
   return (
@@ -69,14 +100,6 @@ export default () => {
               onChange={(event) => {
                 setPassword(event.target.value);
               }}
-            />
-            <label>Family Account? </label>
-            <Checkbox
-              checked={checked}
-              onChange={(event) => {
-                setChecked(event.target.checked);
-              }}
-              id="checkSign"
             />
             <Button
               variant="contained"

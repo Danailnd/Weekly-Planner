@@ -1,117 +1,120 @@
-.loginInfo{
-    margin:10px;
+.loginInfo {
+  margin: 10px;
 }
-.loginInfo input[type=text], input[type=password], #buttonSign {
-    width: 90%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    display: inline-block;
-    border: 1px solid #ccc;
-    box-sizing: border-box;
+.loginInfo input[type="text"],
+input[type="password"],
+#buttonSign {
+  width: 90%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
 }
 .loginInfo label {
-    margin-top:20px;
-    font-size: 50px;
-    display: inline-block;
-    left: 0;
+  margin-top: 20px;
+  font-size: 50px;
+  display: inline-block;
+  left: 0;
 }
 #checkSign {
-    color:greenyellow;
-    width:1000px;
-    accent-color: #9d3039;
+  color: greenyellow;
+  width: 1000px;
+  accent-color: #9d3039;
 }
-.loginInfo input[type=text], input[type=password] {
-    padding:20px;
-    font-size: 30px;
+.loginInfo input[type="text"],
+input[type="password"] {
+  padding: 20px;
+  font-size: 30px;
 }
-#paper{
-    margin: auto;
-    width: 75%;
-    padding: 10px;
-    height:85%;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    -webkit-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
-    background-color: #B1ECFD;
-    text-align: center;
+#paper {
+  margin: auto;
+  width: 75%;
+  padding: 10px;
+  height: 85%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  background-color: #b1ecfd;
+  text-align: center;
 }
 body {
-    /* background-color: #4AB8F9;  */
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-    overflow-y: scroll; 
-    background: var(--bg-color) !important;
+  /* background-color: #4AB8F9;  */
+  -ms-overflow-style: none;
+  background: var(--bg-color) !important;
 }
-  
+
+body,
+html {
+  margin: 0;
+  padding: 0;
+  scrollbar-width: none;
+  overflow: auto;
+}
+
 body::-webkit-scrollbar {
-    display: none; 
+  display: none;
 }
-label{
-    text-align: left;
+label {
+  text-align: left;
 }
 #buttonSign {
-    background-color: #FFB0E5;
-    color: #000000;
-    border: 10px solid #ad6395;
-    margin-top:2.5%;
-    font-size: 30px;
+  background-color: #ffb0e5;
+  color: #000000;
+  border: 10px solid #ad6395;
+  margin-top: 2.5%;
+  font-size: 30px;
 }
 #buttonSign:hover {
-    background-color: #b479a0;
-    color: #fff;
-    border: 10px solid #FFB0E5;
+  background-color: #b479a0;
+  color: #fff;
+  border: 10px solid #ffb0e5;
 }
-html,body{
-    margin:0;
-    padding:0;
+html,
+body {
+  margin: 0;
+  padding: 0;
 }
 .gridCal {
-    display: flex; 
-    justify-content:space-evenly;
-    align-content:space-around;
+  display: flex;
+  justify-content: space-evenly;
+  align-content: space-around;
 }
 button {
-    background-color: #FFB0E5;
-    color: #000000;
-    border: 5px solid #cf90ba;
-    margin-top:2.5%;
-    font-size: 30px;
-    padding:20px;
-    border-radius: 15px;
+  background-color: #ffb0e5;
+  color: #000000;
+  border: 5px solid #cf90ba;
+  margin-top: 2.5%;
+  font-size: 30px;
+  padding: 20px;
+  border-radius: 15px;
 }
 button:hover {
-    background-color: #b67da3;
-    color: #fff;
-    border: 5px solid #FFB0E5;
+  background-color: #b67da3;
+  color: #fff;
+  border: 5px solid #ffb0e5;
 }
 .toolBar {
-    display:flex;
-    justify-content:space-evenly;
-    color: #FFB0E5;
+  display: flex;
+  justify-content: space-evenly;
+  color: #ffb0e5;
 }
-.appBar{
+.appBar {
   background: var(--appbar-bg-color) !important;
-
 }
 
-
-  body[data-theme="bubbleGum"] {
-    --bg-color: #4AB8F9;
-    --appbar-bg-color: #F45489;
-    /* --headings-color: #96ceb4;
+body[data-theme="bubbleGum"] {
+  --bg-color: #4ab8f9;
+  --appbar-bg-color: #f45489;
+  /* --headings-color: #96ceb4;
     --desc-color: #ff9292; */
-  }
-  
-  body[data-theme="pastel"] {
-    --bg-color: #ff7777;
-    --appbar-bg-color: #302327;
-    /* --headings-color: #a2416b;
+}
+
+body[data-theme="pastel"] {
+  --bg-color: #ff7777;
+  --appbar-bg-color: #302327;
+  /* --headings-color: #a2416b;
     --desc-color: #852747; */
-  }
-
-  
-
-
-
+}
